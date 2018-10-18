@@ -11,7 +11,7 @@ Our objective remains: developing the skill of **breaking down complex tasks int
 To support you in this, I've outlined a work plan that you can find after the game description, I encourage you to read 
 through the milestones, and do them a step at a time
 
-Note that I've provided a basic strucure for the code in guess.py, feel free to build on top of that, or start completely 
+Note that I've provided a basic structure for the code in guess.py, feel free to build on top of that, or start completely 
 from scratch. The choice is yours.
 
 The game
