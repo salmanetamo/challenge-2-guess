@@ -11,7 +11,8 @@ WINDOW_HEIGHT = 500
 
 # You will probably still need quite a few globals
 cards = ['A', 'A', 'K', '2', '2', 'K']
-states = [1, 0, 1, 0, 2, 0]
+states = [0, 0, 0, 0, 0, 0]
+# Space between the cards
 horiz_space_between_cards = (WINDOW_WIDTH - (len(cards) * CARD_WIDTH)) / (len(cards) + 1)
 vert_space_between_cards = (WINDOW_HEIGHT - 2) / 3
 
@@ -39,11 +40,22 @@ def draw_cards():
 
 
 # This function decides what should happen given the state of the cards
-# Are there any cards we should remove? any cards we should hide?
-# You won't need this until milestone 3
 def check_card_state():
-    # remove the line below once you start working on this
-    pass
+    count = 0
+    while count < len(states):
+        if states[count] == 1:
+            count2 = count + 1
+            while count2 < len(states):
+                if states[count2] == 1:
+                    if cards[count] == cards[count2]:
+                        states[count] = 2
+                        states[count2] = 2
+                    else:
+                        states[count] = 0
+                        states[count2] = 0
+                count2 += 1
+        count += 1
+
 
 # Check the mouse input, and flip relevant cards
 def check_mouse_input():
@@ -51,9 +63,13 @@ def check_mouse_input():
         clicked_point_x = mouse_x()
         clicked_point_y = mouse_y()
         if is_mouse_on_card(clicked_point_x, clicked_point_y):
-            print(get_value_and_index(clicked_point_x, clicked_point_y))
+            card_index = get_value_and_index(clicked_point_x, clicked_point_y)[1]
+            if states[card_index] != 2:
+                if states[card_index] == 0:
+                    states[card_index] = 1
 
 
+# Check whether or not the mouse is within a card given the coordinates of the mouse
 def is_mouse_on_card(x, y):
     if not(horiz_space_between_cards <= x <= WINDOW_WIDTH - horiz_space_between_cards or
            vert_space_between_cards <= y <= WINDOW_HEIGHT - vert_space_between_cards):
@@ -69,6 +85,7 @@ def is_mouse_on_card(x, y):
     return False
 
 
+# Gives the value and the index of the card clicked
 def get_value_and_index(x, y):
     count = 1
     value_and_index = []
