@@ -11,11 +11,23 @@ WINDOW_HEIGHT = 500
 
 # You will probably still need quite a few globals
 cards = ['A', 'A', 'K', '2', '2', 'K']
+horiz_space_between_cards = (WINDOW_WIDTH - (len(cards) * CARD_WIDTH)) / (len(cards) + 1)
+vert_space_between_cards = (WINDOW_HEIGHT - 2) / 3
 
 # This function will draw the cards
 def draw_cards():
-    # remove the line below once you start working on this
-    pass
+
+    count = 0
+    card_x = horiz_space_between_cards
+    card_y = vert_space_between_cards
+
+    while count < len(cards):
+        img = load_image("assets/" + cards[count] + ".png")
+        draw_image(img, card_x, card_y)
+        card_x += CARD_WIDTH + horiz_space_between_cards
+
+        count += 1
+
 
 # This function decides what should happen given the state of the cards
 # Are there any cards we should remove? any cards we should hide?
@@ -26,8 +38,29 @@ def check_card_state():
 
 # Check the mouse input, and flip relevant cards
 def check_mouse_input():
-    # remove the line below once you start working on this
-    pass
+    if is_mouse_pressed():
+        clicked_point_x = mouse_x()
+        clicked_point_y = mouse_y()
+        # if is_mouse_on_card(clicked_point_x, clicked_point_y):
+        #     print(get_value_and_index(clicked_point_x, clicked_point_y))
+
+
+def is_mouse_on_card(x, y):
+    if not(horiz_space_between_cards <= x <= WINDOW_WIDTH - horiz_space_between_cards or
+           vert_space_between_cards <= y <= WINDOW_HEIGHT - vert_space_between_cards):
+            return False
+
+    count = 1
+    while count < len(cards) + 1:
+        if horiz_space_between_cards * count + CARD_WIDTH * (count - 1) <= x <= (horiz_space_between_cards + CARD_WIDTH) * count:
+            if vert_space_between_cards <= y <= vert_space_between_cards + CARD_HEIGHT or \
+                   WINDOW_HEIGHT - vert_space_between_cards - CARD_HEIGHT <= y <= WINDOW_HEIGHT - vert_space_between_cards:
+                return True
+        count += 1
+    return False
+
+
+
 
 def main():
     # As mentioned, this is just a suggested structure. Feel free to change this if you prefer
